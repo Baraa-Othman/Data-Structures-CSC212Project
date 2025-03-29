@@ -2,12 +2,14 @@ public class Album {
     private String name;
     private String condition;
     private PhotoManager manager;
+    private int nbComps;
 
     // Constructor
     public Album(String name, String condition, PhotoManager manager) {
         this.name = name;
         this.condition = condition;
         this.manager = manager;
+        nbComps = 0;
     }
 
     // Return the name of the album
@@ -29,12 +31,25 @@ public class Album {
     public LinkedList<Photo> getPhotos() {
         LinkedList<Photo> result = new LinkedList<>();
         LinkedList<Photo> allPhotos = manager.getPhotos();
-        String[] requiredTags = condition.split("\\s*AND\\s*");
+        nbComps = 0;
+
+        if (condition == null || condition.equals("") || condition.trim().isEmpty()) {
+            return allPhotos; // If the condition is empty, return all photos
+        }
+
+        String[] requiredTags = condition.split("AND");
+        for (int i = 0; i < requiredTags.length; i++) {
+            requiredTags[i] = requiredTags[i].trim(); // Remove leading and trailing spaces
+        }   
 
         allPhotos.findFirst();
-        for (int i = 0; !allPhotos.empty(); i++) {
+        for (; ; ) {
+            nbComps++;
             Photo photo = allPhotos.current.getData();
             LinkedList<String> tags = photo.getTags();
+            if (tags.empty()) {
+                continue; // Skip photos with no tags
+            }
             boolean matches = true;
 
             tags.findFirst();
@@ -73,37 +88,6 @@ public class Album {
 
     // Return the number of tag comparisons used to find all photos of the album
     public int getNbComps() {
-        int comparisons = 0;
-        LinkedList<Photo> allPhotos = manager.getPhotos();
-        String[] requiredTags = condition.split("\\s*AND\\s*");
-
-        allPhotos.findFirst();
-        for (int i = 0; !allPhotos.empty(); i++) {
-            Photo photo = allPhotos.current.getData();
-            LinkedList<String> tags = photo.getTags();
-
-            tags.findFirst();
-            for (int j = 0; j < requiredTags.length; j++) {
-                for (int k = 0; !tags.empty(); k++) {
-                    comparisons++;
-                    if (tags.current.getData().equals(requiredTags[j])) {
-                        break;
-                    }
-                    if (!tags.last()) {
-                        tags.findNext();
-                    } else {
-                        break;
-                    }
-                }
-            }
-
-            if (!allPhotos.last()) {
-                allPhotos.findNext();
-            } else {
-                break;
-            }
-        }
-
-        return comparisons;
+        return nbComps;
     }
 }
