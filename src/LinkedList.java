@@ -59,11 +59,11 @@ public class LinkedList<T> {
         while (tmp != null) {
             result += tmp.data; 
             if (tmp.next != null) {
-                result += " ,";  
+                result += ", "; 
             }
             tmp = tmp.next; 
         }
-        return result; 
+        return result;
     }
     
     
