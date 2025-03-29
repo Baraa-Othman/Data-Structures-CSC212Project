@@ -175,30 +175,49 @@ public class BST<T>{
 		
 	}
     
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    public void Traverse(Order ord) {
+        if (root == null) {
+            return; 
+        }
+    
+        switch (ord) {
+            case preOrder:
+                preOrder(root);
+                break;
+            case inOrder:
+                inOrder(root);
+                break;
+            case postOrder:
+                postOrder(root);
+                break;
+            default:
+                break;
+        }
+    }
+    
+    private void preOrder(BSTNode<T> node) {
+        if (node != null) {
+            System.out.println(node.data); 
+            preOrder(node.left); 
+            preOrder(node.right); 
+        }
+    }
+    
+    private void inOrder(BSTNode<T> node) {
+        if (node != null) {
+            inOrder(node.left);
+            System.out.println(node.data); 
+            inOrder(node.right); 
+        }
+    }
+    
+    private void postOrder(BSTNode<T> node) {
+        if (node != null) {
+            postOrder(node.left); 
+            postOrder(node.right); 
+            System.out.println(node.data); 
+        }
+    }
 
 
 
