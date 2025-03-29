@@ -49,6 +49,22 @@ public class LinkedList<T> {
             current = current.next;
         }
     }
+    public String toString() {
+        if (empty()) {
+            return "The list is empty.";
+        }
+    
+        String result = ""; 
+        Node<T> tmp = head; 
+        while (tmp != null) {
+            result += tmp.data; 
+            if (tmp.next != null) {
+                result += " ,";  
+            }
+            tmp = tmp.next; 
+        }
+        return result; 
+    }
     
     
 }
