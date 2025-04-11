@@ -43,44 +43,57 @@ public class Album {
         }   
 
         allPhotos.findFirst();
-        for (; ; ) {
-            nbComps++;
+        while(true) {
             Photo photo = allPhotos.current.getData();
             LinkedList<String> tags = photo.getTags();
-            if (tags.empty()) {
+            
+            if (tags.empty()) 
                 continue; // Skip photos with no tags
-            }
             boolean matches = true;
-
+            
             tags.findFirst();
             for (int j = 0; j < requiredTags.length; j++) {
                 boolean tagFound = false;
-                for (int k = 0; !tags.empty(); k++) {
+                while(true) {
+                
                     if (tags.current.getData().equals(requiredTags[j])) {
                         tagFound = true;
+                        nbComps++;
                         break;
                     }
                     if (!tags.last()) {
                         tags.findNext();
-                    } else {
+                        nbComps++;
+                }
+                    else 
                         break;
-                    }
+                    
                 }
-                if (!tagFound) {
-                    matches = false;
-                    break;
+                if (tagFound) {
+                	while(result.current != null) {
+                		if(photo.getPath().equalsIgnoreCase(result.current.getData().getPath())) {
+                			matches = false;
+                			break;
+                		}
+                        if (!result.last()) 
+                            result.findNext();
+                         
+                        else 
+                            break;
+                		
+                	}
+                	if(matches)
+                    result.insert(photo);
                 }
             }
 
-            if (matches) {
-                result.insert(photo);
-            }
 
-            if (!allPhotos.last()) {
+            if (!allPhotos.last()) 
                 allPhotos.findNext();
-            } else {
+             
+            else 
                 break;
-            }
+                        
         }
 
         return result;
