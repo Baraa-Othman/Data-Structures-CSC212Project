@@ -7,7 +7,7 @@ public class PhotoManager {
     }
 
     // Return all managed photos
-    public LinkedList<Photo> getPhotos() {
+    public LinkedList<Photo> getPhotos() {	
         return photos;
     }
 
@@ -19,14 +19,16 @@ public class PhotoManager {
     // Delete a photo
     public void deletePhoto(String path) {
         photos.findFirst();
-        for (int i = 0; !photos.empty(); i++) {
-            if (photos.current.getData().getPath().equals(path)) {
+        while(true) {
+            if (photos.retrieve().getPath().equals(path)) {
                 photos.remove();
+                System.out.println("This photo has been deleted");
                 break;
             }
             if (!photos.last()) {
                 photos.findNext();
             } else {
+            	System.out.println("this photo isn't here");
                 break;
             }
         }
