@@ -1,4 +1,5 @@
-public String key;
+public class BSTNode <T> {
+    public String key;
  public T data;
  public BSTNode<T> left, right;
  
@@ -15,3 +16,5 @@ public String key;
   left = l;
   right = r;
  }
+    
+}
