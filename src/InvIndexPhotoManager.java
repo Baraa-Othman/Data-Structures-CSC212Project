@@ -113,10 +113,39 @@ public class InvIndexPhotoManager {
     }
 
     // Return the inverted index of all managed photos
-    public BST<LinkedList<Photo>> getPhotos() {
-        return invertedIndex;
-    }
     
+    public void getphotos() {
+    	if(phoIn.empty()) {
+    	System.out.println("no photos in the album");
+    	return;
+    	}
+    	getphotos(index.root);
+    }
+    public void getphotos(BSTNode<LinkedList<Photo>> b) {
+    		if (b == null){
+    	        return;
+    		}
+    	    System.out.print(b.key + " -> ");
+    	    b.data.findFirst();
+    	    while (true) {
+    	        System.out.print(b.data.retrieve().getPath());
+    	        if (b.data.last()) 
+    	        	break;
+    	        System.out.print(", ");
+    	        b.data.findNext();
+    	    }
+    	    System.out.println(); 
+    	    getphotos(b.left);
+    	    getphotos(b.right);
+    }
+    public BST<LinkedList<Photo>> getPhotos2(){
+    	if(phoIn.empty()) {
+        	System.out.println("no photos in the album");
+        	return null;
+        	}
+        	getphotos(index.root);
+    	return index;
+    }
         private boolean inPhotos(Photo ph) {
     	if(phoIn.empty())
     		return false;
