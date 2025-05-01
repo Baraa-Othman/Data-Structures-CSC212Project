@@ -8,30 +8,58 @@ public class InvIndexPhotoManager {
 
     // Add a photo
     public void addPhoto(Photo p) {
-        LinkedList<String> tags = p.getTags(); // Get tags of the photo
-        tags.findFirst();
-        while (!tags.empty()) {
-            String tag = tags.current.getData(); // Get the current tag
+    	LinkedList<String> tags = p.getTags();
+    	String tagStr;
+    	int c;
+    	boolean flag = true;
+    	Photo p1;
+    	LinkedList<Photo> p2;
+    	LinkedList<String> tag;
+    	if(tags.empty())
+    		return;
+    	tags.findFirst(); 
+    	while(!tags.empty()) {
+    		tagStr = tags.retrieve();
+        	if(index.empty()) {
+        		p2 = new LinkedList<Photo>();
+        		tag = new LinkedList<String>();
+        		tag.insert(tagStr);
+        		c = tagStr.compareTo("");
+        		tags.remove();
+        		p1 = new Photo(p.getPath(), tag);
+        		p2.insert(p1);
+        		index.insert(c, p2);
+        	}
+        	if(flag)
+    		index.find(Relative.Root);
+    		c = tagStr.compareTo(index.retrieve().retrieve().getTags().retrieve());
+    		if(tagStr.equalsIgnoreCase(index.retrieve().retrieve().getTags().retrieve()) & !index.findkey(c) ) {
+    			p2 = new LinkedList<Photo>();
+    			tag = new LinkedList<String>();
+        		tag.insert(tagStr);
+        		tags.remove();
+        		p1 = new Photo(p.getPath(), tag);
+        		p2.insert(p1);
+        		index.insert(c, p2);
+        		index.retrieve().retrieve().getTags().findNext();
+        		flag = true;
+    		}
+    		else {
+    			if(!tagStr.equalsIgnoreCase(index.retrieve().retrieve().getTags().retrieve()))
+    				flag = false;
 
-             // hashCode() is used to create a unique key for each tag
-            // Because if we used charAt(0) ASCII value,
-            // we would have a lot of collisions, forcing us to loop
-            // through the whole String, not just the first character
-            if (!invertedIndex.findkey(tag.hashCode())) {
-                invertedIndex.insert(tag.hashCode(), new LinkedList<>());
-            }
-
-            // Add the photo to the LinkedList associated with the tag
-            LinkedList<Photo> photos = invertedIndex.retrieve();
-            photos.insert(p);
-
-            // Move to the next tag
-            if (!tags.last()) {
-                tags.findNext();
-            } else {
-                break;
-            }
-        }
+    			else {
+    			tag = new LinkedList<String>();
+        		tag.insert(tagStr);
+    			p1 = new Photo(p.getPath(), tag);
+    			index.retrieve().insert(p1);
+           		tags.remove();
+        		index.retrieve().retrieve().getTags().findNext();
+        		flag = true;
+    			}
+    		}
+    			
+    	}
     }
 
     // Delete a photo
