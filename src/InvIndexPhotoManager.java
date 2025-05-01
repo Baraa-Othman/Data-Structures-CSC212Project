@@ -83,35 +83,26 @@ public class InvIndexPhotoManager {
     }
 
     // Delete a photo
-    public void deletePhoto(String path) {
-        invertedIndex.find(Relative.Root); // Start at the root of the BST
-        while (true) {
-            LinkedList<Photo> photos = invertedIndex.retrieve(); // Get the LinkedList of photos for the current tag
-            photos.findFirst();
-            while (!photos.empty()) {
-                // Check if the current photo matches the path
-                if (photos.current.getData().getPath().equals(path)) {
-                    photos.remove(); // Remove the photo
-                    break;
-                }
-                if (!photos.last()) {
-                    photos.findNext();
-                } else {
-                    break;
-                }
-            }
-
-            // If the LinkedList becomes empty, remove the tag from the BST
-            if (photos.empty()) {
-                invertedIndex.deleteSubtree();
-            }
-              // Move to the next tag in the BST
-              if (!invertedIndex.find(Relative.RightChild)) {
-                break;
-            }
-        }
+       public void deletePhoto(String path) {
+    	if(!findPhoto(path)) {
+    		index.remove_key(index.giveRoot());
+    		System.out.println("No photos with this path is here");
+    		return;
+    	}
+    	delete(index.root, path);
+    	phoIn.remove();
+//    	phoIn.findFirst();
+//    	while(true) {
+//    		if(phoIn.retrieve().getPath().equalsIgnoreCase(path)) {
+// 	    	   phoIn.remove();
+// 	    	   break;
+// 	       }
+// 	        if (phoIn.last()) 
+// 	        	break;
+// 	       phoIn.findNext();
+//    	}
+    	
     }
-
     // Return the inverted index of all managed photos
     
     public void getphotos() {
@@ -159,4 +150,36 @@ public class InvIndexPhotoManager {
     	}
     	return false;
     	}
+	    private boolean findPhoto(String path) {
+    	if(phoIn.empty())
+    		return false;
+    	phoIn.findFirst();
+    	while(true) {
+    		if(path.equalsIgnoreCase(phoIn.retrieve().getPath())) {
+    			return true;
+    		}
+    		if(phoIn.last())
+    			break;
+    		phoIn.findNext();
+    	}
+    	return false;
+    }
+    private void delete(BSTNode<LinkedList<Photo>> b,String path) {
+    	if (b == null )
+	        return;
+	    b.data.findFirst();
+	    while (true) {
+	       if(b.data.retrieve().getPath().equalsIgnoreCase(path)) {
+	    	   b.data.remove();
+	    	   break;
+	       }
+	        if (b.data.last()) 
+	        	break;
+	        b.data.findNext();
+	    }
+	    if(b.data.empty())
+	    	index.remove_key(b.key);
+	    delete(b.left, path);
+	    delete(b.right, path);
+    }
 }
