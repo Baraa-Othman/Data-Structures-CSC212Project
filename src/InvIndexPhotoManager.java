@@ -1,65 +1,85 @@
 public class InvIndexPhotoManager {
     private BST<LinkedList<Photo>> invertedIndex; // Using your custom BST and LinkedList
-
+    private LinkedList<Photo> phoIn = new LinkedList<Photo>();
     // Constructor
     public InvIndexPhotoManager() {
         invertedIndex = new BST<>();
     }
 
     // Add a photo
-    public void addPhoto(Photo p) {
+ public void addPhoto(Photo p) {
     	LinkedList<String> tags = p.getTags();
-    	String tagStr;
-    	int c;
-    	boolean flag = true;
-    	Photo p1;
-    	LinkedList<Photo> p2;
-    	LinkedList<String> tag;
+    	if(p == null)
+    		return;
     	if(tags.empty())
     		return;
-    	tags.findFirst(); 
-    	while(!tags.empty()) {
-    		tagStr = tags.retrieve();
-        	if(index.empty()) {
-        		p2 = new LinkedList<Photo>();
-        		tag = new LinkedList<String>();
-        		tag.insert(tagStr);
-        		c = tagStr.compareTo("");
-        		tags.remove();
-        		p1 = new Photo(p.getPath(), tag);
-        		p2.insert(p1);
-        		index.insert(c, p2);
-        	}
-        	if(flag)
-    		index.find(Relative.Root);
-    		c = tagStr.compareTo(index.retrieve().retrieve().getTags().retrieve());
-    		if(tagStr.equalsIgnoreCase(index.retrieve().retrieve().getTags().retrieve()) & !index.findkey(c) ) {
-    			p2 = new LinkedList<Photo>();
-    			tag = new LinkedList<String>();
-        		tag.insert(tagStr);
-        		tags.remove();
-        		p1 = new Photo(p.getPath(), tag);
-        		p2.insert(p1);
-        		index.insert(c, p2);
-        		index.retrieve().retrieve().getTags().findNext();
-        		flag = true;
+    	if(inPhotos(p))
+    		return;
+    	String tag;
+    	LinkedList<Photo> ph ;
+    	LinkedList<String> t;
+    	Photo p1;
+    	tags.findFirst();
+    	while(!(tags.last())) {
+    		tag = tags.retrieve();
+    		if(index.empty()) {
+    			ph = new LinkedList<Photo>();
+    			t = new LinkedList<String>();
+    			t.insert(tag);
+    			p1 = new Photo(p.getPath(), t);
+    			ph.insert(p1);
+    			tags.findNext();
+    			index.insert(tag, ph);
     		}
     		else {
-    			if(!tagStr.equalsIgnoreCase(index.retrieve().retrieve().getTags().retrieve()))
-    				flag = false;
-
+    			if(!index.findkey(tag)) {
+    				ph = new LinkedList<Photo>();
+        			t = new LinkedList<String>();
+        			t.insert(tag);
+        			p1 = new Photo(p.getPath(), t);
+        			ph.insert(p1);
+        			tags.findNext();
+        			index.insert(tag, ph);
+    			}
     			else {
-    			tag = new LinkedList<String>();
-        		tag.insert(tagStr);
-    			p1 = new Photo(p.getPath(), tag);
-    			index.retrieve().insert(p1);
-           		tags.remove();
-        		index.retrieve().retrieve().getTags().findNext();
-        		flag = true;
+    				t = new LinkedList<String>();
+        			t.insert(tag);
+    				p1 = new Photo(p.getPath(), t);
+    				tags.findNext();
+    				index.retrieve().insert(p1);
     			}
     		}
-    			
     	}
+    	tag = tags.retrieve();
+		if(index.empty()) {
+			ph = new LinkedList<Photo>();
+			t = new LinkedList<String>();
+			t.insert(tag);
+			p1 = new Photo(p.getPath(), t);
+			ph.insert(p1);
+			tags.findNext();
+			index.insert(tag, ph);
+		}
+		else {
+			if(!index.findkey(tag)) {
+				ph = new LinkedList<Photo>();
+    			t = new LinkedList<String>();
+    			t.insert(tag);
+    			p1 = new Photo(p.getPath(), t);
+    			ph.insert(p1);
+    			tags.findNext();
+    			index.insert(tag, ph);
+			}
+			else {
+				t = new LinkedList<String>();
+    			t.insert(tag);
+				p1 = new Photo(p.getPath(), t);
+				tags.findNext();
+				index.retrieve().insert(p1);
+			}
+		}
+    phoIn.insert(p);	
+    	
     }
 
     // Delete a photo
@@ -96,4 +116,18 @@ public class InvIndexPhotoManager {
     public BST<LinkedList<Photo>> getPhotos() {
         return invertedIndex;
     }
+    
+        private boolean inPhotos(Photo ph) {
+    	if(phoIn.empty())
+    		return false;
+    	phoIn.findFirst();
+    	while(true) {
+    		if(ph.getPath().equalsIgnoreCase(phoIn.retrieve().getPath()))
+    			return true;
+    		if(phoIn.last())
+    			break;
+    		phoIn.findNext();
+    	}
+    	return false;
+    	}
 }
