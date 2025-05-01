@@ -1,13 +1,13 @@
 public class InvIndexPhotoManager {
-    private BST<LinkedList<Photo>> invertedIndex; // Using your custom BST and LinkedList
+    private BST<LinkedList<Photo>> index;
     private LinkedList<Photo> phoIn = new LinkedList<Photo>();
-    // Constructor
-    public InvIndexPhotoManager() {
-        invertedIndex = new BST<>();
-    }
 
-    // Add a photo
- public void addPhoto(Photo p) {
+    public InvIndexPhotoManager() {
+        this.index = new BST<>();
+    }
+    
+    // Add a photo to the index
+    public void addPhoto(Photo p) {
     	LinkedList<String> tags = p.getTags();
     	if(p == null)
     		return;
@@ -81,9 +81,7 @@ public class InvIndexPhotoManager {
     phoIn.insert(p);	
     	
     }
-
-    // Delete a photo
-       public void deletePhoto(String path) {
+    public void deletePhoto(String path) {
     	if(!findPhoto(path)) {
     		index.remove_key(index.giveRoot());
     		System.out.println("No photos with this path is here");
@@ -103,7 +101,7 @@ public class InvIndexPhotoManager {
 //    	}
     	
     }
-    // Return the inverted index of all managed photos
+    
     
     public void getphotos() {
     	if(phoIn.empty()) {
@@ -137,7 +135,7 @@ public class InvIndexPhotoManager {
         	getphotos(index.root);
     	return index;
     }
-        private boolean inPhotos(Photo ph) {
+    private boolean inPhotos(Photo ph) {
     	if(phoIn.empty())
     		return false;
     	phoIn.findFirst();
@@ -150,7 +148,7 @@ public class InvIndexPhotoManager {
     	}
     	return false;
     	}
-	    private boolean findPhoto(String path) {
+    private boolean findPhoto(String path) {
     	if(phoIn.empty())
     		return false;
     	phoIn.findFirst();
@@ -182,4 +180,6 @@ public class InvIndexPhotoManager {
 	    delete(b.left, path);
 	    delete(b.right, path);
     }
+    
+    
 }
