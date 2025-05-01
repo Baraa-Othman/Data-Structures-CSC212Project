@@ -153,3 +153,7 @@ BSTNode<T> root, current;
   }
   return p;
  }
+
+    public String giveRoot(){
+    	return root.key;
+    }
