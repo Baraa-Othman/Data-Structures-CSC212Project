@@ -1,6 +1,6 @@
 public class LinkedList<T> {
-    private Node<T> head;
-    private Node<T> current;
+    public Node<T> head;
+    public Node<T> current;
     public LinkedList() {
         head = current = null;
     }
@@ -22,8 +22,8 @@ public class LinkedList<T> {
     public void update(T data) {
         current.data = data;
     }
-    public T retrieve () {
-    	return current.data; 
+    public T retrieve() {
+        return current.data; 
     }
     public void insert(T data) {
         Node<T> tmp;
