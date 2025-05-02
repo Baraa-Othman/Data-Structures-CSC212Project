@@ -36,7 +36,7 @@ public class Test {
        System.out.println("Manager photos:");
         System.out.println(manager.getPhotos());
         System.out.println("InvIndexManager photos:");
-        invIndexManager.getPhotos();
+        System.out.println(invIndexManager.getPhotos());
         System.out.println("Get album1 name, condition, and photos:");
         System.out.println("album1 name: " + album1.getName());
         System.out.println("album1 condition: " + album1.getCondition());
@@ -52,7 +52,7 @@ public class Test {
         invIndexManager.deletePhoto("bear.jpg");
         invIndexManager.deletePhoto("hedgehog.jpg");
         invIndexManager.deletePhoto("orange-butterfly.jpg");
-        invIndexManager.getPhotos();
+        System.out.println(invIndexManager.getPhotos());
         }
         private static LinkedList<String> toTagsLinkedList(String tags) {
         LinkedList<String> result = new LinkedList<String>();
