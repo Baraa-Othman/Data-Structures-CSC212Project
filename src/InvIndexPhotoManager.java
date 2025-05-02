@@ -69,11 +69,10 @@ public class InvIndexPhotoManager {
 	// Big-Oh is O(n squared) 
     public void deletePhoto(String path) {
     	if(!findPhoto(path)) {
-    		index.remove_key(index.giveRoot());
     		System.out.println("No photos with this path is here");
     		return;
     	}
-    	delete(index.root, path);
+    	delete(path);
     	phoIn.remove();
 
     	
@@ -81,24 +80,31 @@ public class InvIndexPhotoManager {
 
 	// Delete a photo from the index
 	// helper method for the previous one
-	// Big-Oh is O(n squared)
-	private void delete(BSTNode<LinkedList<Photo>> b,String path) {
-    	if (b == null )
-	        return;
-	    b.data.findFirst();
-	    while (true) {
-	       if(b.data.retrieve().getPath().equalsIgnoreCase(path)) {
-	    	   b.data.remove();
-	    	   break;
-	       }
-	        if (b.data.last()) 
-	        	break;
-	        b.data.findNext();
-	    }
-	    if(b.data.empty())
-	    	index.remove_key(b.key);
-	    delete(b.left, path);
-	    delete(b.right, path);
+	// Big-Oh is O(nlogn)
+    private void delete(String path) {
+	 
+	   LinkedList<String> t = phoIn.retrieve().getTags();
+	   t.findFirst();
+	   String s;
+	   while(true) {
+		   s = t.retrieve();
+		   if(index.findkey(s)) {
+			   index.retrieve().findFirst();
+			   while(true) {
+			   if(index.retrieve().retrieve().getPath().equalsIgnoreCase(path)) {
+				   index.retrieve().remove();
+				   break;
+			   }
+			   index.retrieve().findNext();
+			   }
+			   if(index.retrieve().empty())
+				   index.remove_key(s);
+			   }
+		   if(t.last())
+			   break;
+		   t.findNext();
+	   }
+	 
     }
     
     // Get all photos in the index
