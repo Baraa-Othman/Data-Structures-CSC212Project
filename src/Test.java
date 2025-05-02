@@ -42,7 +42,7 @@ public class Test {
         System.out.println("album1 condition: " + album1.getCondition());
         System.out.println("Get album1 photos:");
         System.out.println(album1.getPhotos());
-        System.out.println("Number of comparisons in album1 last operation: " + album1.getNbComps());
+        System.out.println("Number of comparisons in album1: " + album1.getNbComps());
         manager.deletePhoto("bear.jpg");
         manager.deletePhoto("hedgehog.jpg");
         System.out.println("Manager photos after deletion:");
