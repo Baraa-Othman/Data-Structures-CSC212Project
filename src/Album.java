@@ -34,6 +34,10 @@ public class Album {
         LinkedList<Photo> allPhotos = manager.getPhotos();
         nbComps = 0;
 
+        if (allPhotos.empty()) {
+            return result;
+        }
+
         if (condition == null || condition.equals("") || condition.trim().isEmpty()) {
             return allPhotos; 
         }
@@ -44,7 +48,7 @@ public class Album {
         }   
 
         allPhotos.findFirst();
-        while (true) {
+        while (allPhotos.current != null) { 
             Photo photo = allPhotos.current.getData();
             LinkedList<String> tags = photo.getTags();
     
