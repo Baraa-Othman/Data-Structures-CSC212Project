@@ -2,7 +2,7 @@ public class Test {
 
     public static void main(String[] args) {
         PhotoManager manager = new PhotoManager();
-        Album album1 = new Album("Album1", "animal AND based", manager);
+        Album album1 = new Album("Album1", "animal AND pet", manager);
         Photo photo1 = new Photo("hedgehog.jpg", toTagsLinkedList("animal, hedgehog, apple, grass, green"));
         Photo photo2 = new Photo("bear.jpg", toTagsLinkedList("animal, bear, cab, grass, wind"));
         Photo photo3 = new Photo("orange-butterfly.jpg", toTagsLinkedList("insect, butterfly, flower, color"));
@@ -14,7 +14,6 @@ public class Test {
         Photo photo9 = new Photo("lion.jpg", toTagsLinkedList("animal, lion, big, yellow"));
         
 
-        System.out.println(album1.getPhotos());
         InvIndexPhotoManager invIndexManager = new InvIndexPhotoManager();
         invIndexManager.addPhoto(photo1);
         invIndexManager.addPhoto(photo2);
@@ -43,7 +42,7 @@ public class Test {
         System.out.println("album1 condition: " + album1.getCondition());
         System.out.println("Get album1 photos:");
         System.out.println(album1.getPhotos());
-        System.out.println("Number of comparisons in album1: " + album1.getNbComps());
+        System.out.println("Number of comparisons in album1 last operation: " + album1.getNbComps());
         manager.deletePhoto("bear.jpg");
         manager.deletePhoto("hedgehog.jpg");
         System.out.println("Manager photos after deletion:");
