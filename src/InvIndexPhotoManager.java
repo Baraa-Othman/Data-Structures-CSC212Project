@@ -7,13 +7,14 @@ public class InvIndexPhotoManager {
     }
     
     // Add a photo to the index
+	// Big-Oh is O(n) where n is the number of tags in the photo.
     public void addPhoto(Photo p) {
     	LinkedList<String> tags = p.getTags();
     	if(p == null)
     		return;
     	if(tags.empty())
     		return;
-    	if(inPhotos(p))
+    	if(findPhoto(p))
     		return;
     	String tag;
     	LinkedList<Photo> ph ;
@@ -22,7 +23,7 @@ public class InvIndexPhotoManager {
     	tags.findFirst();
     	while(!(tags.last())) {
     		tag = tags.retrieve();
-    		if(index.empty()) {
+    		if(index.empty() ||!index.findkey(tag)) {
     			ph = new LinkedList<Photo>();
     			t = new LinkedList<String>();
     			t.insert(tag);
@@ -32,26 +33,17 @@ public class InvIndexPhotoManager {
     			index.insert(tag, ph);
     		}
     		else {
-    			if(!index.findkey(tag)) {
-    				ph = new LinkedList<Photo>();
-        			t = new LinkedList<String>();
-        			t.insert(tag);
-        			p1 = new Photo(p.getPath(), t);
-        			ph.insert(p1);
-        			tags.findNext();
-        			index.insert(tag, ph);
-    			}
-    			else {
+    			
     				t = new LinkedList<String>();
         			t.insert(tag);
     				p1 = new Photo(p.getPath(), t);
     				tags.findNext();
     				index.retrieve().insert(p1);
-    			}
+    			
     		}
     	}
     	tag = tags.retrieve();
-		if(index.empty()) {
+		if(index.empty()||!index.findkey(tag)) {
 			ph = new LinkedList<Photo>();
 			t = new LinkedList<String>();
 			t.insert(tag);
@@ -60,16 +52,7 @@ public class InvIndexPhotoManager {
 			tags.findNext();
 			index.insert(tag, ph);
 		}
-		else {
-			if(!index.findkey(tag)) {
-				ph = new LinkedList<Photo>();
-    			t = new LinkedList<String>();
-    			t.insert(tag);
-    			p1 = new Photo(p.getPath(), t);
-    			ph.insert(p1);
-    			tags.findNext();
-    			index.insert(tag, ph);
-			}
+		
 			else {
 				t = new LinkedList<String>();
     			t.insert(tag);
@@ -77,10 +60,13 @@ public class InvIndexPhotoManager {
 				tags.findNext();
 				index.retrieve().insert(p1);
 			}
-		}
+		
     phoIn.insert(p);	
     	
     }
+
+	// Delete a photo from the index
+	// Big-Oh is O(n squared) 
     public void deletePhoto(String path) {
     	if(!findPhoto(path)) {
     		index.remove_key(index.giveRoot());
@@ -89,80 +75,14 @@ public class InvIndexPhotoManager {
     	}
     	delete(index.root, path);
     	phoIn.remove();
-//    	phoIn.findFirst();
-//    	while(true) {
-//    		if(phoIn.retrieve().getPath().equalsIgnoreCase(path)) {
-// 	    	   phoIn.remove();
-// 	    	   break;
-// 	       }
-// 	        if (phoIn.last()) 
-// 	        	break;
-// 	       phoIn.findNext();
-//    	}
+
     	
     }
-    
-    
-    public void getphotos() {
-    	if(phoIn.empty()) {
-    	System.out.println("no photos in the album");
-    	return;
-    	}
-    	getphotos(index.root);
-    }
-    public void getphotos(BSTNode<LinkedList<Photo>> b) {
-    		if (b == null){
-    	        return;
-    		}
-    	    System.out.print(b.key + " -> ");
-    	    b.data.findFirst();
-    	    while (true) {
-    	        System.out.print(b.data.retrieve().getPath());
-    	        if (b.data.last()) 
-    	        	break;
-    	        System.out.print(", ");
-    	        b.data.findNext();
-    	    }
-    	    System.out.println(); 
-    	    getphotos(b.left);
-    	    getphotos(b.right);
-    }
-    public BST<LinkedList<Photo>> getPhotos2(){
-    	if(phoIn.empty()) {
-        	System.out.println("no photos in the album");
-        	return null;
-        	}
-        	getphotos(index.root);
-    	return index;
-    }
-    private boolean inPhotos(Photo ph) {
-    	if(phoIn.empty())
-    		return false;
-    	phoIn.findFirst();
-    	while(true) {
-    		if(ph.getPath().equalsIgnoreCase(phoIn.retrieve().getPath()))
-    			return true;
-    		if(phoIn.last())
-    			break;
-    		phoIn.findNext();
-    	}
-    	return false;
-    	}
-    private boolean findPhoto(String path) {
-    	if(phoIn.empty())
-    		return false;
-    	phoIn.findFirst();
-    	while(true) {
-    		if(path.equalsIgnoreCase(phoIn.retrieve().getPath())) {
-    			return true;
-    		}
-    		if(phoIn.last())
-    			break;
-    		phoIn.findNext();
-    	}
-    	return false;
-    }
-    private void delete(BSTNode<LinkedList<Photo>> b,String path) {
+
+	// Delete a photo from the index
+	// helper method for the previous one
+	// Big-Oh is O(n squared)
+	private void delete(BSTNode<LinkedList<Photo>> b,String path) {
     	if (b == null )
 	        return;
 	    b.data.findFirst();
@@ -180,6 +100,81 @@ public class InvIndexPhotoManager {
 	    delete(b.left, path);
 	    delete(b.right, path);
     }
+    
+    // Get all photos in the index
+	// Big-Oh is O(n squared).
+    public void getPhotos() {
+    	if(phoIn.empty()) {
+    	System.out.println("no photos in the album");
+    	return;
+    	}
+    	getphotos(index.root);
+    }
+
+	// Big-Oh is O(n squared).
+    public void getphotos(BSTNode<LinkedList<Photo>> b) {
+    		if (b == null){
+    	        return;
+    		}
+    	    System.out.print(b.key + " -> ");
+    	    b.data.findFirst();
+    	    while (true) {
+    	        System.out.print(b.data.retrieve().getPath());
+    	        if (b.data.last()) 
+    	        	break;
+    	        System.out.print(", ");
+    	        b.data.findNext();
+    	    }
+    	    System.out.println(); 
+    	    getphotos(b.left);
+    	    getphotos(b.right);
+    }
+
+	// Get all photos in the index by another way
+	// not used
+    /*public BST<LinkedList<Photo>> getPhotos2(){
+    	if(phoIn.empty()) {
+        	System.out.println("no photos in the album");
+        	return null;
+        	}
+        	getphotos(index.root);
+    	return index;
+    }*/
+
+	// Check if a photo is in the index
+	// Big-Oh is O(n) where n is the number of photos.
+    private boolean findPhoto(Photo ph) {
+    	if(phoIn.empty())
+    		return false;
+    	phoIn.findFirst();
+    	while(true) {
+    		if(ph.getPath().equalsIgnoreCase(phoIn.retrieve().getPath()))
+    			return true;
+    		if(phoIn.last())
+    			break;
+    		phoIn.findNext();
+    	}
+    	return false;
+    	}
+
+	// Find if a photo exists in the index
+	// same as the previous method but with a string as parameter
+	// Big-Oh is O(n) where n is the number of photos.
+    private boolean findPhoto(String path) {
+    	if(phoIn.empty())
+    		return false;
+    	phoIn.findFirst();
+    	while(true) {
+    		if(path.equalsIgnoreCase(phoIn.retrieve().getPath())) {
+    			return true;
+    		}
+    		if(phoIn.last())
+    			break;
+    		phoIn.findNext();
+    	}
+    	return false;
+    }
+    
     
     
 }
