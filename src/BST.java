@@ -160,7 +160,20 @@ public class BST<T>{
        public String giveRoot(){
            return root.key;
        }
-
+public String toString() {
+		if(empty())
+			return "No photos in the album";
+		tra(root);
+		return "";
+	}
+	private void tra(BSTNode<T>b) {
+		if(b == null)
+			return;
+		System.out.print(b.key + "-> ");
+		System.out.println(b.data);
+		tra(b.left);
+		tra(b.right);
+	}
 }
 
 
