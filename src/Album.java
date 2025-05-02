@@ -28,6 +28,7 @@ public class Album {
     }
 
     // Return all photos that satisfy the album condition
+    // Big-Oh is O(n*m*l) where n is the number of photos, m is the number of tags in a photo, and l is the number of required tags in the condition.
     public LinkedList<Photo> getPhotos() {
         LinkedList<Photo> result = new LinkedList<>();
         LinkedList<Photo> allPhotos = manager.getPhotos();
