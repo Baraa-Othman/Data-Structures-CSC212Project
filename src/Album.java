@@ -2,7 +2,7 @@ public class Album {
     private String name;
     private String condition;
     private PhotoManager manager;
-    private int nbComps;
+    private static int nbComps;
 
     // Constructor
     public Album(String name, String condition, PhotoManager manager) {
@@ -32,7 +32,7 @@ public class Album {
     public LinkedList<Photo> getPhotos() {
         LinkedList<Photo> result = new LinkedList<>();
         LinkedList<Photo> allPhotos = manager.getPhotos();
-        nbComps = 0;
+       
 
         if (allPhotos.empty()) {
             return result;
