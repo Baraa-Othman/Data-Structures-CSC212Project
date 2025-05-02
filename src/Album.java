@@ -34,68 +34,78 @@ public class Album {
         nbComps = 0;
 
         if (condition == null || condition.equals("") || condition.trim().isEmpty()) {
-            return allPhotos; // If the condition is empty, return all photos
+            return allPhotos; 
         }
 
         String[] requiredTags = condition.split("AND");
         for (int i = 0; i < requiredTags.length; i++) {
-            requiredTags[i] = requiredTags[i].trim(); // Remove leading and trailing spaces
+            requiredTags[i] = requiredTags[i].trim(); 
         }   
 
         allPhotos.findFirst();
-        while(true) {
+        while (true) {
             Photo photo = allPhotos.current.getData();
             LinkedList<String> tags = photo.getTags();
-            
-            if (tags.empty()) 
-                continue; // Skip photos with no tags
+    
+            if (tags.empty()) {
+                if (!allPhotos.last()) {
+                    allPhotos.findNext();
+                } else {
+                    break;
+                }
+                continue; 
+            }
+    
             boolean matches = true;
-            
-            tags.findFirst();
+    
             for (int j = 0; j < requiredTags.length; j++) {
                 boolean tagFound = false;
-                while(true) {
-                
+                tags.findFirst();
+                while (true) {
                     if (tags.current.getData().equals(requiredTags[j])) {
                         tagFound = true;
                         nbComps++;
-                        break;
+                        break; 
                     }
                     if (!tags.last()) {
                         tags.findNext();
                         nbComps++;
+                    } else {
+                        break; 
+                    }
                 }
-                    else 
+                if (!tagFound) { 
+                    matches = false;
+                    break; 
+                }
+            }
+    
+            if (matches) { 
+                result.findFirst();
+                boolean alreadyInResult = false;
+                while (!result.empty()) {
+                    if (photo.getPath().equalsIgnoreCase(result.current.getData().getPath())) {
+                        alreadyInResult = true;
                         break;
-                    
+                    }
+                    if (!result.last()) {
+                        result.findNext();
+                    } else {
+                        break;
+                    }
                 }
-                if (tagFound) {
-                	while(result.current != null) {
-                		if(photo.getPath().equalsIgnoreCase(result.current.getData().getPath())) {
-                			matches = false;
-                			break;
-                		}
-                        if (!result.last()) 
-                            result.findNext();
-                         
-                        else 
-                            break;
-                		
-                	}
-                	if(matches)
+                if (!alreadyInResult) {
                     result.insert(photo);
                 }
             }
-
-
-            if (!allPhotos.last()) 
+    
+            if (!allPhotos.last()) {
                 allPhotos.findNext();
-             
-            else 
+            } else {
                 break;
-                        
+            }
         }
-
+    
         return result;
     }
 
