@@ -109,43 +109,16 @@ public class InvIndexPhotoManager {
     
     // Get all photos in the index
 	// Big-Oh is O(n squared).
-    public void getPhotos() {
-    	if(phoIn.empty()) {
-    	System.out.println("no photos in the album");
-    	return;
-    	}
-    	getphotos(index.root);
-    }
+
 
 	// Big-Oh is O(n squared).
-    public void getphotos(BSTNode<LinkedList<Photo>> b) {
-    		if (b == null){
-    	        return;
-    		}
-    	    System.out.print(b.key + " -> ");
-    	    b.data.findFirst();
-    	    while (true) {
-    	        System.out.print(b.data.retrieve().getPath());
-    	        if (b.data.last()) 
-    	        	break;
-    	        System.out.print(", ");
-    	        b.data.findNext();
-    	    }
-    	    System.out.println(); 
-    	    getphotos(b.left);
-    	    getphotos(b.right);
-    }
+
 
 	// Get all photos in the index by another way
 	// not used
-    /*public BST<LinkedList<Photo>> getPhotos2(){
-    	if(phoIn.empty()) {
-        	System.out.println("no photos in the album");
-        	return null;
-        	}
-        	getphotos(index.root);
+public BST<LinkedList<Photo>> getPhotos(){
     	return index;
-    }*/
+    }
 
 	// Check if a photo is in the index
 	// Big-Oh is O(n) where n is the number of photos.
