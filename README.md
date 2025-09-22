@@ -2,7 +2,7 @@
 
 ## CSC212
 
-This is a team based **Data Structures** project **CSC212** in KSU, it aims to let students build their own implementations of famous data structures instead of using libraries, and use them in a photo management system to see the difference in complexity, the project is made in JAVA,
+This is a team based **Data Structures** project **CSC212** in KSU, it aims to let students build their own implementations of famous data structures instead of using libraries, and use them in a photo management system to see the difference in complexity, the project is made in JAVA.
 
 ***
 For more information check the [Documentation file](https://github.com/Baraa-Othman/Data-Structures-CSC212Project/blob/main/Documentation/CSC212PrjReport.pdf)
