@@ -1,18 +1,19 @@
-## Getting Started
+# Data Structures project
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+## CSC212
 
-## Folder Structure
+This is a team based **Data Structures** project **CSC212** in KSU, it aims to let students build their own implementations of famous data structures instead of using libraries, and use them in a photo management system to see the difference in complexity, the project is made in JAVA,
 
-The workspace contains two folders by default, where:
+***
+For more information check the [Documentation file]()
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
+***
+Team:
+1. [Albara Osman](https://github.com/Baraa-Othman/)
+2. [Khaled Elfoula](https://github.com/Khaled-Elfoula/)
+3. [Yasir Alfaifi](https://github.com/Yasir-Alfaifi)
 
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
+**Supervised by: Dr. Abdulrahman Alsaudi**
 
-## Dependency Management
-
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+_The project was submitted on 2025/5/3_
